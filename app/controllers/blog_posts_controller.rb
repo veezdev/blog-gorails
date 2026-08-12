@@ -1,4 +1,6 @@
 class BlogPostsController < ApplicationController
+  before_action :set_blog_post, except: %w[index new create]
+
   def index
     @blog_posts = BlogPost.all
   end
@@ -6,9 +8,6 @@ class BlogPostsController < ApplicationController
   # GET /blog_posts/:id
   # if the blog post is not found, redirect to the index page
   def show
-    @blog_post = BlogPost.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to root_path
   end
 
   # GET /blog_posts/new
@@ -36,7 +35,6 @@ class BlogPostsController < ApplicationController
   # will render a form for editing an existing blog post
   # will find the blog post by id and pass it to the view
   def edit
-    @blog_post = BlogPost.find(params[:id])
   end
 
   # PATCH/PUT /blog_posts/:id
@@ -44,8 +42,6 @@ class BlogPostsController < ApplicationController
   # if the blog post is updated successfully, redirect to the show page for that blog post
   # if the blog post is not updated successfully, render the edit form again with the errors (validation errors) and a status of unprocessable_entity (422)
   def update
-    @blog_post = BlogPost.find(params[:id])
-
     if @blog_post.update(blog_post_params)
       redirect_to @blog_post
     else
@@ -58,7 +54,6 @@ class BlogPostsController < ApplicationController
   # if the blog post is deleted successfully, redirect to the index page with a status of see_other (303)
   # if the blog post is not deleted successfully, redirect to the show page for that blog post with a status of see_other (303)
   def destroy
-    @blog_post = BlogPost.find(params[:id])
     @blog_post.destroy
     redirect_to root_path, status: :see_other
   end
@@ -69,5 +64,14 @@ class BlogPostsController < ApplicationController
   # This is a security feature in Rails that prevents mass assignment vulnerabilities.
   def blog_post_params
     params.require(:blog_post).permit(:title, :body)
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  # This method will find the blog post by id and set it to an instance variable.
+  # If the blog post is not found, it will rescue the ActiveRecord::RecordNotFound exception and redirect to the root path.
+  def set_blog_post
+    @blog_post = BlogPost.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path
   end
 end
