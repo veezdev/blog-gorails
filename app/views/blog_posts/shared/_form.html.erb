@@ -1,0 +1,22 @@
+<%# error messages with if else conditional rendering %>
+<% if @blog_post.errors.any? %>
+  <div>
+    <ul>
+      <% @blog_post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<%# form %>
+<%= form_with model: @blog_post do |form| %>
+  <div>
+    <%= form.label :title, "Title :"%>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :body, "Content :"%>
+    <%= form.text_area :body %>
+  </div>
+  <%= form.button "Create Blog Post" %>
+<% end %>

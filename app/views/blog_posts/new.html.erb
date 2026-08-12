@@ -1,23 +1,5 @@
 <h1>Create a New Blog Post</h1>
-<%# error messages with if else conditional rendering %>
-<% if @blog_post.errors.any? %>
-  <div>
-    <ul>
-      <% @blog_post.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-<%# form %>
-<%= form_with model: @blog_post do |form| %>
-  <div>
-    <%= form.label :title, "Title :"%>
-    <%= form.text_field :title %>
-  </div>
-  <div>
-    <%= form.label :body, "Content :"%>
-    <%= form.text_area :body %>
-  </div>
-  <%= form.button "Create Blog Post" %>
-<% end %>
+<%# render form from partial shared and pass the blog_post variable %>
+<%# blog_post: @blog_post means get the @blog_post instance variable and parsing it to the partial form %>
+<%# if there is an blog_posts folder (for params) you should write like below %>
+<%= render "blog_posts/shared/form", blog_post: @blog_post %>
