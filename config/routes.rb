@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # routes for blog posts (get, post, put, patch, delete)
+  get "/blog_posts/:id", to: "blog_posts#show", as: :blog_post # as: will generate name_path and name_url helpers for the route
+
   # Defines the root path route ("/")
   root "blog_posts#index"
 end
