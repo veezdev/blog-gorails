@@ -32,6 +32,27 @@ class BlogPostsController < ApplicationController
     end
   end
 
+  # GET /blog_posts/:id/edit
+  # will render a form for editing an existing blog post
+  # will find the blog post by id and pass it to the view
+  def edit
+    @blog_post = BlogPost.find(params[:id])
+  end
+
+  # PATCH/PUT /blog_posts/:id
+  # will update an existing blog post with the parameters from the form
+  # if the blog post is updated successfully, redirect to the show page for that blog post
+  # if the blog post is not updated successfully, render the edit form again with the errors (validation errors) and a status of unprocessable_entity (422)
+  def update
+    @blog_post = BlogPost.find(params[:id])
+
+    if @blog_post.update(blog_post_params)
+      redirect_to @blog_post
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # Use strong parameters to whitelist the attributes that can be mass-assigned
