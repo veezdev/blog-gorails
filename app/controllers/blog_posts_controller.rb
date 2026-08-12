@@ -10,4 +10,33 @@ class BlogPostsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path
   end
+
+  # GET /blog_posts/new
+  # renders a form for creating a new blog post
+  # will initialize a new blog post object and pass it to the view
+  def new
+    @blog_post = BlogPost.new
+  end
+
+  # POST /blog_posts
+  # will create a new blog post with the parameters from the form
+  # if the blog post is saved successfully, redirect to the show page for that blog post (saved in the database)
+  # if the blog post is not saved successfully, render the new form again with the errors (validation errors) and a status of unprocessable_entity (422)
+  def create
+    @blog_post = BlogPost.new(blog_post_params)
+
+    if @blog_post.save
+      redirect_to @blog_post
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  # Use strong parameters to whitelist the attributes that can be mass-assigned
+  # This is a security feature in Rails that prevents mass assignment vulnerabilities.
+  def blog_post_params
+    params.require(:blog_post).permit(:title, :body)
+  end
 end

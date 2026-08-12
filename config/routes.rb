@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # routes for blog posts (get, post, put, patch, delete)
+  get "/blog_posts/new", to: "blog_posts#new", as: :new_blog_post
+  post "/blog_posts", to: "blog_posts#create", as: :blog_posts
   get "/blog_posts/:id", to: "blog_posts#show", as: :blog_post # as: will generate name_path and name_url helpers for the route
 
   # Defines the root path route ("/")
