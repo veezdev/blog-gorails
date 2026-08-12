@@ -53,6 +53,16 @@ class BlogPostsController < ApplicationController
     end
   end
 
+  # DELETE /blog_posts/:id
+  # will delete an existing blog post
+  # if the blog post is deleted successfully, redirect to the index page with a status of see_other (303)
+  # if the blog post is not deleted successfully, redirect to the show page for that blog post with a status of see_other (303)
+  def destroy
+    @blog_post = BlogPost.find(params[:id])
+    @blog_post.destroy
+    redirect_to root_path, status: :see_other
+  end
+
   private
 
   # Use strong parameters to whitelist the attributes that can be mass-assigned
